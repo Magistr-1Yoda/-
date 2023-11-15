@@ -1,0 +1,28 @@
+import openai
+
+# Замените 'YOUR_OPENAI_API_KEY' на ваш ключ API от OpenAI
+openai.api_key = 'YOUR_OPENAI_API_KEY'
+
+def generate_response(prompt):
+    # Запрос к GPT-3 для генерации текста
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=150
+    )
+    
+    # Извлекаем сгенерированный текст
+    generated_text = response['choices'][0]['text']
+    
+    return generated_text
+
+# Пример использования
+user_question = "Какие преимущества использования искусственного интеллекта?"
+prompt = f"Пользователь: {user_question}\nИИ:"
+
+# Генерация ответа от ИИ
+ai_response = generate_response(prompt)
+
+# Выводим сгенерированный ответ
+print("Сгенерированный ответ от ИИ:")
+print(ai_response)
