@@ -1,0 +1,48 @@
+import openai 
+import requests
+
+# Установите ваш ключ API GPT-3
+openai.api_key = 'YOUR_OPENAI_API_KEY'
+
+def generate_image_search_query(context):
+    # Формируем запрос к GPT-3
+    prompt = f"Контекст диалога: {context}\n[Share the photo]"
+
+    # Запрос к GPT-3 для получения продолжения текста
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=150
+    )
+
+    # Извлекаем текст после "[Share the photo]"
+    generated_text = response['choices'][0]['text']
+    
+    # Формируем запрос к поиску изображений
+    query = generated_text.strip()
+    
+    return query
+
+def search_images(query, num_images=10):
+    # Используем Google Images для поиска изображений (здесь используется пример)
+    # Замените этот код, если вы хотите использовать другой сервис поиска изображений
+    google_api_key = 'YOUR_GOOGLE_API_KEY'
+    
+    
+    url = f'сюда сыллку'
+    response = requests.get(url)
+    data = response.json()
+
+    # Извлекаем ссылки на изображения
+    image_links = [item['link'] for item in data.get('items', [])]
+    
+    return image_links
+
+# Пример использования
+context_dialogue = "Ваш произвольный контекст диалога здесь."
+query = generate_image_search_query(context_dialogue)
+image_links = search_images(query)
+
+# Выводим топ-10 релевантных картинок
+for i, link in enumerate(image_links[:10]):
+    print(f"Ссылка на изображение {i+1}: {link}")
